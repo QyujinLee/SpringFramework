@@ -9,15 +9,18 @@ import springbook.user.domain.User;
 
 public class UserDAO {
 
-    private SimpleConnectionMaker simpleConnectionMaker;
+    private ConnectionMaker connectionMaker;
 
     public UserDAO() {
-        // UserDAO 오브젝트 생성과 동시에 SimpleConnectionMaker 오브젝트 생성하고 전역변수로 사용
-        simpleConnectionMaker = new SimpleConnectionMaker();
+        /*
+         *  connectionMaker를 인터페이스로 정의하였지만 여전히 UserDAO 코드에
+         *  어떤 클래스를 이용할지가 뚜렷하게 명시되어있다.
+         */
+        connectionMaker = new DConnectionMaker();
     }
 
     public void add(User user) throws ClassNotFoundException, SQLException {
-        Connection c = simpleConnectionMaker.makeNewConnection();
+        Connection c = connectionMaker.makeConnection();
         PreparedStatement ps = c.prepareStatement("INSERT INTO USERS(ID, NAME, PASSWORD) VALUES(?,?,?)");
         ps.setString(1, user.getId());
         ps.setString(2, user.getName());
@@ -30,7 +33,7 @@ public class UserDAO {
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException {
-        Connection c = simpleConnectionMaker.makeNewConnection();
+        Connection c = connectionMaker.makeConnection();
 
         PreparedStatement ps = c.prepareStatement("SELECT * FROM USERS WHERE ID = ?");
         ps.setString(1, id);
