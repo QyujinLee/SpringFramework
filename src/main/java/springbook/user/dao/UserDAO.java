@@ -1,33 +1,13 @@
 package springbook.user.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import springbook.user.domain.User;
 
-public class UserDAO {
-
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        UserDAO dao = new UserDAO();
-
-        User user = new User();
-        user.setId("q_cdax");
-        user.setName("gyujin");
-        user.setPassword("1234");
-
-        dao.add(user);
-
-        System.out.println(user.getId() + "등록 성공");
-
-        User user2 = dao.get(user.getId());
-        System.out.println(user2.getName());
-        System.out.println(user2.getPassword());
-
-        System.out.println(user2.getId() + "조회 성공");
-    }
+public abstract class UserDAO {
 
     public void add(User user) throws ClassNotFoundException, SQLException {
         Connection c = getConnection();
@@ -62,10 +42,6 @@ public class UserDAO {
         return user;
     }
 
-    public Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/study_springframework?serverTimezone=UTC&useUnicode=yes&characterEncoding=UTF8&autoReconnect=true&autoReconnectForPools=true","root","1234");
-        return c;
-    }
+    public abstract Connection getConnection() throws ClassNotFoundException, SQLException;
 
 }
