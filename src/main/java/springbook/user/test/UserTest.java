@@ -2,26 +2,23 @@ package springbook.user.test;
 
 import java.sql.SQLException;
 
-import springbook.user.dao.DUserDAO;
-import springbook.user.dao.NUserDAO;
 import springbook.user.dao.UserDAO;
 import springbook.user.domain.User;
 
 public class UserTest {
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-            UserDAO dao1 = new DUserDAO();
-            UserDAO dao2 = new NUserDAO();
+            UserDAO dao = new UserDAO();
 
             User user = new User();
             user.setId("q_cdax");
             user.setName("gyujin");
             user.setPassword("1234");
 
-            dao1.add(user);
+            dao.add(user);
 
             System.out.println(user.getId() + "등록 성공");
 
-            User user2 = dao1.get(user.getId());
+            User user2 = dao.get(user.getId());
             System.out.println(user2.getName());
             System.out.println(user2.getPassword());
 
