@@ -30,9 +30,7 @@ public class UserDAO {
     }
 
     public void add(User user) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/study_springframework?serverTimezone=UTC&useUnicode=yes&characterEncoding=UTF8&autoReconnect=true&autoReconnectForPools=true","root","1234");
-
+        Connection c = getConnection();
         PreparedStatement ps = c.prepareStatement("INSERT INTO USERS(ID, NAME, PASSWORD) VALUES(?,?,?)");
         ps.setString(1, user.getId());
         ps.setString(2, user.getName());
@@ -45,8 +43,7 @@ public class UserDAO {
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/study_springframework?serverTimezone=UTC&useUnicode=yes&characterEncoding=UTF8&autoReconnect=true&autoReconnectForPools=true","root","1234");
+        Connection c = getConnection();
 
         PreparedStatement ps = c.prepareStatement("SELECT * FROM USERS WHERE ID = ?");
         ps.setString(1, id);
@@ -63,6 +60,12 @@ public class UserDAO {
         c.close();
 
         return user;
+    }
+
+    public Connection getConnection() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/study_springframework?serverTimezone=UTC&useUnicode=yes&characterEncoding=UTF8&autoReconnect=true&autoReconnectForPools=true","root","1234");
+        return c;
     }
 
 }
